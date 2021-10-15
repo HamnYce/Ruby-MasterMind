@@ -6,17 +6,17 @@ class Board
     super()
     @available_colors = %w[blue green red yellow magenta teal]
     create_random_code
+    puts 'code has been set'
   end
 
   def check_answer(solution)
     # returns true if there is a winner, else returns the response
     return true if solution == @code
 
-    @response.append(check_for_reds(solution))
+    @response += check_for_reds(solution)
     return true if @response.size == 4
 
-    @response.append(check_for_whites(solution)) unless @response.size == 4
-    @response
+    @response += check_for_whites(solution) unless @response.size == 4
   end
 
   private
