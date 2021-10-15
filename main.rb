@@ -1,6 +1,6 @@
 # frozen_string_literal: false
 
-password= %w[blue green red yellow]
+password= []
 guess = []
 
 # TODO: use print method to make the array printing look good
@@ -29,17 +29,14 @@ end
 # driver
 def take_user_guess
   guess = []
-  (1..4).each do |_i|
+  (1..4).each do |i|
+    puts "position #{i}"
     print_choice
     guess.append(color_converter(gets.chomp.to_i))
   end
   guess
 end
 
-# driver
-def game_won?(guess, password);
-  # require further implementation of game/ planning
-end
 
 # board
 def create_random_password
@@ -90,7 +87,8 @@ def check_for_red_white(solution, password)
   temp_solution = Array.new(solution)
   temp_password = Array.new(password)
 
-  check_for_whites(temp_solution, temp_password)
+  check_for_reds(temp_solution, temp_password) + check_for_whites(temp_solution,
+                                                                  temp_password)
 end
 
 # board
@@ -98,18 +96,27 @@ def print_code(arr)
   puts "#{arr[0]}|#{arr[1]}|#{arr[2]}|#{arr[3]}"
 end
 
-puts 'guess the code'
+# driver
+def game_won?(guess, password)
+  return 'guess is right!' if check_for_red_white(guess, password) == true
 
-# set&get random password
+  puts "you got mail"
+  false
+end
+
+def game_loop
+  take_user_guess until game_won?
+end
+
+
+
 password = create_random_password
-print_code(password)
-
-# Take user input
+p "password #{password}"
 guess = take_user_guess
-
-# outputs total user input
-print_code(guess)
-
-p "REDS #{check_for_reds(guess, password)}"
-p "RED/WHITE #{check_for_red_white(guess, password)}"
 p "guess #{guess}"
+until game_won?(guess, password)
+  guess = take_user_guess
+  p "guess #{guess}"
+end
+p "RED/WHITE #{check_for_red_white(guess, password)}"
+p game_won?(guess, password)
