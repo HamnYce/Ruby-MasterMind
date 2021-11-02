@@ -2,12 +2,14 @@
 
 # TODO: Documentation Here
 class Board
-  attr_accessor :guess, :password
+  attr_accessor :guess, :password, :reds, :whites
 
   def initialize
     super
     @guess = []
     @password = random_password
+    @reds = []
+    @whites = []
     print_password
   end
 
@@ -17,24 +19,35 @@ class Board
     @password == @guess
   end
 
-  def check_position_and_color
-    reds = []
-    (0..3).each do |i|
-      reds += ['reds'] if @password[i] == @guess[i]
-    end
-    reds
+  def check_red_and_white
+    guess_t = Array.new(@guess)
+    password_t = Array.new(@password)
+
+    check_red(guess_t, password_t, @reds)
+    check_white(guess_t, password_t, @whites)
   end
 
-  def check_color_without_position
-    whites = []
-    (0..3).each do |i|
-      @password.map { |x| x != @password[1] }
+  def check_red(guess, password, reds)
+    (0..3).reverse_each do |i|
+      next unless guess[i] == password[i]
+
+      guess.delete_at i
+      password.delete_at i
+      reds << 'red'
     end
   end
 
-  def random_password
-    [(rand * 6).to_i] + [(rand * 6).to_i] + [(rand * 6).to_i] +
-      [(rand * 6).to_i]
+  def check_white(guess, password, whites)
+    (0..3).reverse_each do |i|
+      (0..3).reverse_each do |j|
+        next if guess[i].nil? || password[j].nil?
+        next unless guess[i] == password[j]
+
+        guess.delete_at(i)
+        password.delete_at(j)
+        whites << 'white'
+      end
+    end
   end
 
   def take_user_guess
@@ -59,5 +72,15 @@ class Board
     when 6 then 'teal'
     else 'white'
     end
+  end
+
+  private
+
+  def random_password
+    pass = []
+    (0..3).each do |_i|
+      pass << (rand * 6).to_i + 1
+    end
+    pass
   end
 end

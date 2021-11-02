@@ -2,28 +2,15 @@
 
 require_relative 'board'
 
+b = Board.new
 
-guess = [1, 1, 1, 1]
-password = [1, 2, 3, 4]
-whites = []
+p b.password
 
-(0..3).reverse_each do |i|
-  (0..3).each do |j|
-    next if i == j
-    next unless guess[i] == password[j]
+b.take_user_guess
 
-    guess.delete_at(i)
-    password.delete_at(j)
-    whites << 'white'
-    next
-  end
-end
+b.check_red_and_white
 
-p whites
-
-# b = Board.new
-
-# until b.same?
-#   b.take_user_guess
-#   p b.check_position_and_color
-# end
+p b.guess
+p b.password
+p b.reds
+p b.whites
