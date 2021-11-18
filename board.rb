@@ -2,6 +2,7 @@
 
 # TODO: Documentation Here
 class Board
+# TODO: Remove accessors for everything
   attr_accessor :guess, :password, :reds, :whites
 
   def initialize
@@ -14,6 +15,15 @@ class Board
   end
 
   public
+
+  def win?
+    return true if same?
+
+    @reds = []
+    @whites = []
+    check_red_and_white
+    false
+  end
 
   def same?
     @password == @guess

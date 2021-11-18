@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
-require_relative 'board'
+require_relative 'driver'
 
-b = Board.new
+game = Driver.new
 
-p b.password
+p game.board.password
 
-b.take_user_guess
+game.game_loop
 
-b.check_red_and_white
 
-p b.guess
-p b.password
-p b.reds
-p b.whites
+# TODO: decide on code win condition,
+#         create loop that runs for either (12 times || (condition))
+#         win condition: 4 reds in array, boolean released from
+#         take_in_reds_whites
