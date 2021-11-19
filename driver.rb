@@ -20,7 +20,7 @@ class Driver
       break if end_game?
 
       puts "turn count: #{i}"
-# TODO: >> Board, func whites_empty?, reds_empty?
+
       p @board.whites.to_s unless @board.whites_empty?
       p @board.reds.to_s unless @board.reds_empty?
       @board.take_user_guess
