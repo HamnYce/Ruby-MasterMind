@@ -16,6 +16,14 @@ class Board
 
   public
 
+  def whites_empty?
+    @whites.empty?
+  end
+
+  def reds_empty?
+    @reds.empty?
+  end
+
   def win?
     return true if same?
 
