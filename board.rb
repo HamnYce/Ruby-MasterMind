@@ -2,27 +2,20 @@
 
 # TODO: Documentation Here
 class Board
-# TODO: Remove accessors for everything
+  # TODO: Remove accessors
   attr_accessor :guess, :password, :reds, :whites
 
-  def initialize
-    super
+  def initialize(is_computer_password)
+    @password = (is_computer_password ? random_password : user_password)
+    puts 'Password has been set'
+    @guess = random_password if is_computer_password
     @guess = []
-    @password = random_password
     @reds = []
     @whites = []
-    print_password
+    # puts "password: + #{@password}"
   end
 
   public
-
-  def whites_empty?
-    @whites.empty?
-  end
-
-  def reds_empty?
-    @reds.empty?
-  end
 
   def win?
     return true if same?
@@ -31,10 +24,6 @@ class Board
     @whites = []
     check_red_and_white
     false
-  end
-
-  def same?
-    @password == @guess
   end
 
   def check_red_and_white
@@ -51,7 +40,7 @@ class Board
 
       guess.delete_at i
       password.delete_at i
-      reds << 'red'
+      reds << 'RED'
     end
   end
 
@@ -63,7 +52,7 @@ class Board
 
         guess.delete_at(i)
         password.delete_at(j)
-        whites << 'white'
+        whites << 'WHITE'
       end
     end
   end
@@ -76,23 +65,28 @@ class Board
     end
   end
 
-  def print_password
-    p "password #{@password}"
+  def whites_empty?
+    @whites.empty?
   end
 
-  def to_color(num)
-    case num + 1
-    when 1 then 'red'
-    when 2 then 'green'
-    when 3 then 'yellow'
-    when 4 then 'blue'
-    when 5 then 'purple'
-    when 6 then 'teal'
-    else 'white'
+  def reds_empty?
+    @reds.empty?
+  end
+
+  def computer_solve
+    (puts 'game end' or return) if win?
+
+    (0..3).each do |i|
+      @guess[i] = rand_int(6) unless @guess[i] == @password[i]
     end
+    puts "coomputer guess: #{@guess.to_s}"
   end
 
   private
+
+  def same?
+    @password == @guess
+  end
 
   def random_password
     pass = []
@@ -100,5 +94,21 @@ class Board
       pass << (rand * 6).to_i + 1
     end
     pass
+  end
+
+  def user_password
+    arr = []
+    (1..4).each do |i|
+      puts "enter value for position: #{i}"
+      arr << gets.to_i
+    end
+    arr
+  end
+
+  
+
+  # Random integer in range [1,bound]
+  def rand_int(bound)
+    (rand * bound).to_i + 1
   end
 end
