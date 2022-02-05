@@ -13,8 +13,8 @@ class Driver
     puts 'You will get a red pin for each number with the right position and value'
     puts 'You will a white pin for each number with the right value but wrong position'
     puts "(a combination of white and red pins are allowed)\n-------------"
-
-    @board = Board.new(player_or_computer_password)
+    is_computer_password = player_or_computer_password
+    @board = Board.new(is_computer_password)
     (is_computer_password ? user_game_loop : computer_game_loop)
   end
 

@@ -2,4 +2,4 @@
 
 require_relative 'driver'
 
-game = Driver.new
+Driver.new
